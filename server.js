@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var configDB = require('./config/db');
+//var configDB = require('./config/db');   /////setup database and change this and db file*****************
 var app = require('./config/app');
 var debug = require('debug')('comp229.003.m2022:server');
 var http = require('http');
@@ -14,8 +14,8 @@ const configurePassport = require('./config/passport');
  * Get port from environment and store in Express.
  */
 
-var db = configDB();
-var port = normalizePort(process.env.PORT || '3000');
+//var db = configDB();
+var port = normalizePort(process.env.PORT || '3200');
 app.set('port', port);
 
 /**
