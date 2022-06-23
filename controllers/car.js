@@ -46,30 +46,24 @@ module.exports.details = (req, res, next) => {
 // Renders the Add form using the add_edit.ejs template
 module.exports.displayAddPage = (req, res, next) => {
     
-    let id = req.params.id;
+    
+    let updatedCar = new CarModel();
 
-    CarModel.findById(id, (err, updatedCar) => {
-        if(err)
-        {
-            console.log(err);
-            res.end(err);
-        }
-        else
-        {
-            //show the edit view
-            res.render('cars/add_edit', {
-                title: 'update', 
-                car: updatedCar,
-                userName: req.user ? req.user.username : ''
-            })
-        }
-    });
-}
+    
+    
+    //show edit view   
+    res.render('cars/add_edit', {
+        title: 'Add Car', 
+        car: updatedCar,
+        userName: req.user ? req.user.username : ''
+     });
+}    
+
 
 // Processes the data submitted from the Add form to create a new car
 module.exports.processAddPage = (req, res, next) => {
 
-    let newItem = CarModel({
+    let newCar = CarModel({
         _id: req.body.id,     
         make: req.body.make,
         model: req.body.model,
@@ -80,7 +74,8 @@ module.exports.processAddPage = (req, res, next) => {
         color: req.body.color,
         price: req.body.price
       });
-      CarModel.create(newItem, (err, item) =>{
+
+      CarModel.create(newCar, (err, car) =>{
           if(err)
           {
               console.log(err);
@@ -89,7 +84,7 @@ module.exports.processAddPage = (req, res, next) => {
           else
           {                    
               res.redirect('/cars/list');
-              res.status(200).json(item);     
+              //res.status(200).json(car);     
           }
       });  
 
@@ -110,7 +105,7 @@ module.exports.displayEditPage = (req, res, next) => {
         {
             //show the edit view
             res.render('cars/add_edit', {
-                title: 'update', 
+                title: 'Edit Car', 
                 car: updatedCar,
                 userName: req.user ? req.user.username : ''
             })  
@@ -153,7 +148,6 @@ module.exports.performDelete = (req, res, next) => {
     
   let id = req.params.id;
 
-
   CarModel.remove({_id: id}, (err) => {
       if(err)
       {
@@ -161,8 +155,7 @@ module.exports.performDelete = (req, res, next) => {
           res.end(err);          
       }
       else
-      {
-          // refresh the book list
+      {          
           res.redirect('/cars/list');
       }
   });
